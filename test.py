@@ -127,8 +127,8 @@ async def send(id, message):
             Newtext = message.caption
 
             for url in urls:
-                newurl = await unshorten_url(url)
-                Newtext = Newtext.replace(url, f'<b><a href={newurl}>Buy Now</a></b>')
+                # newurl = await unshorten_url(url)
+                Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{Newtext}</b>',
                                  reply_markup=Promo)
 
@@ -145,10 +145,8 @@ async def send(id, message):
             Newtext = message.text
 
             for url in urls:
-                newurl = await unshorten_url(url)
-                Newtext = Newtext.replace(url, f'<b><a href={newurl}>Buy Now</a></b>')
-            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>', disable_web_page_preview=True)
-
+                # newurl = await unshorten_url(url)
+                Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>', disable_web_page_preview=True)
         else:
             await app.send_message(chat_id=id, text=f'<b>{message.text}</b>', disable_web_page_preview=True)
