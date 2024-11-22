@@ -36,9 +36,17 @@ flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'B
 ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra']
 meesho_keywords = ['meesho', 'shopsy', 'msho', 'wishlink']
 beauty_keywords = ['mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo', 'Tresemme', 'themancompany', 'wow', 'nykaa',
-                   'mCaffeine', 'Bombay Shaving Company', 'BSC', 'TMC', 'foxtale', 'facewash', 'trimmer', 'bodywash',
-                   'fitspire', 'PUER', 'perfume',
-                   'lipstick']
+    'mCaffeine', 'Bombay Shaving Company', 'BSC', 'TMC', 'foxtale', 'facewash', 'trimmer', 'bodywash',
+    'fitspire', 'PUER', 'perfume', 'lipstick', 'shampoo', 'conditioner', 'hair serum', 'skincare',
+    'foundation', 'compact', 'concealer', 'nail polish', 'eyeliner', 'kajal', 'mascara', 'beard oil',
+    'hair wax', 'sunscreen', 'moisturizer', 'face pack', 'charcoal mask', 'body scrub', 'hand cream',
+    'night cream', 'toner', 'facial mist', 'sheet mask', 'argan oil', 'aloe vera gel', 'face roller',
+    'lip balm', 'anti-aging cream', 'acne treatment', 'grooming', 'beauty blender', 'hair straightener',
+    'curling iron', 'epilator', 'hair removal cream', 'organic beauty', 'natural skincare', 'beauty tools'
+    'nykaa', 'mcaffeine', 'foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness','myglamm',
+    'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis', 
+    'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow', 
+    'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia']
 # cc_keywords=['axis','hdfc','icici','sbm','sbi','credit','idfc','aubank','hsbc','Axis','Hdfc','Icici','Sbm','Sbi','Credit','Idfc','Aubank','Hsbc',
 #             'AXIS','HDFC','ICICI','SBM','SBI','CREDIT','IDFC','AUBANK','HSBC']
 cc_keywords = ['Apply Now', 'Lifetime Free', 'Apply for', ' Lifetime free', 'Benifits', 'Apply here', 'Lifetime FREE',
