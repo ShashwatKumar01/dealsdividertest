@@ -121,7 +121,7 @@ async def unshorten_url(url):
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("Join Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1")],
-          [InlineKeyboardButton("Add Folder", url="https://t.me/addlist/FYEMFZCWeTY2ZmE1"),
+          [InlineKeyboardButton("ALL Loots", url="https://t.me/addlist/FYEMFZCWeTY2ZmE1"),
         InlineKeyboardButton("Whatsapp", url="https://t.me/Deals_and_Discounts_Channel2/33")]
          ])
 
@@ -137,11 +137,11 @@ async def send(id, message):
             for url in urls:
                 # newurl = await unshorten_url(url)
                 Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{Newtext}</b>'+"\n\n<b>🛍️ MORE DEALS 🛒! 👉 <a href ='https://t.me/Deals_and_Discounts_Channel2/34'>Click HERE</a> 👈</b>",
+            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{Newtext}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/FYEMFZCWeTY2ZmE1'>Click HERE for MORE DEALS ! </a> 👈</b>",
                                  reply_markup=Promo)
 
         else:
-            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️ MORE DEALS 🛒! 👉 <a href ='https://t.me/Deals_and_Discounts_Channel2/34'>Click HERE</a> 👈</b>",
+            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/FYEMFZCWeTY2ZmE1'>Click HERE for MORE DEALS ! </a> 👈</b>",
                                  reply_markup=Promo)
 
 
@@ -155,9 +155,9 @@ async def send(id, message):
             for url in urls:
                 # newurl = await unshorten_url(url)
                 Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️ MORE DEALS 🛒! 👉 <a href ='https://t.me/Deals_and_Discounts_Channel2/34'>Click HERE</a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/FYEMFZCWeTY2ZmE1'>Click HERE for MORE DEALS ! </a> 👈</b>", disable_web_page_preview=True)
         else:
-            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️ MORE DEALS 🛒! 👉 <a href ='https://t.me/Deals_and_Discounts_Channel2/34'>Click HERE</a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/FYEMFZCWeTY2ZmE1'>Click HERE for MORE DEALS ! </a> 👈</b>", disable_web_page_preview=True)
 
 
 @bot.route('/')
