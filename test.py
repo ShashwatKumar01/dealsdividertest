@@ -121,7 +121,7 @@ async def unshorten_url(url):
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("Join Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1")],
-          [InlineKeyboardButton("ALL Loots", url="https://t.me/addlist/FYEMFZCWeTY2ZmE1"),
+          [InlineKeyboardButton("ALL Loots", url="https://t.me/Deals_and_Discounts_Channel2/34"),
         InlineKeyboardButton("Whatsapp", url="https://t.me/Deals_and_Discounts_Channel2/33")]
          ])
 
