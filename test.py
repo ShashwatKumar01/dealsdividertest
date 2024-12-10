@@ -29,24 +29,17 @@ flipkart_id = -1002124607504
 meesho_id = -1002133412234
 ajiomyntra_id = -1002146712649
 cc_id = -1002078634799
-beauty_id = -1002046497963
+# beauty_id = -1002046497963
 
 amazon_keywords = ['amzn', 'amazon', 'tinyurl']
-flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq']
-ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra']
+flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq','noise','firebolt']
 meesho_keywords = ['meesho', 'shopsy', 'msho', 'wishlink']
-beauty_keywords = ['mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo', 'Tresemme', 'themancompany', 'wow', 'nykaa',
-    'mCaffeine', 'Bombay Shaving Company', 'BSC', 'TMC', 'foxtale', 'facewash', 'trimmer', 'bodywash',
-    'fitspire', 'PUER', 'perfume', 'lipstick', 'shampoo', 'conditioner', 'hair serum', 'skincare',
-    'foundation', 'compact', 'concealer', 'nail polish', 'eyeliner', 'kajal', 'mascara', 'beard oil',
-    'hair wax', 'sunscreen', 'moisturizer', 'face pack', 'charcoal mask', 'body scrub', 'hand cream',
-    'night cream', 'toner', 'facial mist', 'sheet mask', 'argan oil', 'aloe vera gel', 'face roller',
-    'lip balm', 'anti-aging cream', 'acne treatment', 'grooming', 'beauty blender', 'hair straightener',
-    'curling iron', 'epilator', 'hair removal cream', 'organic beauty', 'natural skincare', 'beauty tools'
-    'nykaa', 'mcaffeine', 'foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness','myglamm',
+ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra','mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo', 'Tresemme', 'themancompany', 'wow', 'nykaa',
+    'mCaffeine', 'mcaffeine','Bombay Shaving Company', 'BSC', 'TMC', 'foxtale',
+    'fitspire', 'PUER','foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness','myglamm',
     'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis', 
     'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow', 
-    'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia']
+    'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia','derma','clovia','zandu','renee','bellavita']
 # cc_keywords=['axis','hdfc','icici','sbm','sbi','credit','idfc','aubank','hsbc','Axis','Hdfc','Icici','Sbm','Sbi','Credit','Idfc','Aubank','Hsbc',
 #             'AXIS','HDFC','ICICI','SBM','SBI','CREDIT','IDFC','AUBANK','HSBC']
 cc_keywords = ['Apply Now', 'Lifetime Free', 'Apply for', ' Lifetime free', 'Benifits', 'Apply here', 'Lifetime FREE',
@@ -61,7 +54,6 @@ keyword_to_chat_id = {
     tuple(flipkart_keywords): flipkart_id,
     tuple(meesho_keywords): meesho_id,
     tuple(ajio_keywords): ajiomyntra_id,
-    tuple(beauty_keywords): beauty_id,
     tuple(cc_keywords): cc_id
 }
 
