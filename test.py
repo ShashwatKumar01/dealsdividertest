@@ -215,8 +215,8 @@ async def handle_text(client, message):
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
-            await app.send_photo(chat_id=message.chat.id, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
-            await app.send_photo(chat_id=-1002198032644, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
+        await app.send_photo(chat_id=message.chat.id, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
+        await app.send_photo(chat_id=-1002198032644, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
 
     elif message.text:
         inputvalue = message.text
