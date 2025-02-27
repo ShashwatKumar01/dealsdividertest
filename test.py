@@ -37,8 +37,8 @@ meesho_keywords = ['meesho', 'shopsy', 'msho', 'wishlink']
 ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra','mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo', 'Tresemme', 'themancompany', 'wow', 'nykaa',
     'mCaffeine', 'mcaffeine','Bombay Shaving Company', 'BSC', 'TMC', 'foxtale',
     'fitspire', 'PUER','foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness','myglamm',
-    'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis', 
-    'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow', 
+    'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis',
+    'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow',
     'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia','derma','clovia','zandu','renee','bellavita']
 # cc_keywords=['axis','hdfc','icici','sbm','sbi','credit','idfc','aubank','hsbc','Axis','Hdfc','Icici','Sbm','Sbi','Credit','Idfc','Aubank','Hsbc',
 #             'AXIS','HDFC','ICICI','SBM','SBI','CREDIT','IDFC','AUBANK','HSBC']
@@ -109,6 +109,35 @@ async def unshorten_url(url):
         print(f"Error: {e}")
         return None
 
+def removedup(text):
+    urls = re.findall(r"https?://\S+", text)
+    unique_urls = []
+    seen = set()
+
+    for url in urls:
+        if url not in seen:
+            seen.add(url)
+            unique_urls.append(url)
+
+    # Remove duplicate URL lines
+    lines = text.split("\n")
+    cleaned_lines = []
+    seen_urls = set()
+
+    for line in lines:
+        if any(url in line for url in unique_urls):
+            # If the URL in the line is already seen, skip it
+            url_in_line = next((url for url in unique_urls if url in line), None)
+            if url_in_line and url_in_line in seen_urls:
+                continue
+            seen_urls.add(url_in_line)
+
+        cleaned_lines.append(line)
+
+    # Join cleaned lines back
+    cleaned_text = "\n".join(cleaned_lines).strip()
+
+    return cleaned_text
 
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
@@ -215,6 +244,7 @@ async def handle_text(client, message):
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
+        inputvalue=removedup(inputvalue)
         await app.send_photo(chat_id=message.chat.id, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
         await app.send_photo(chat_id=-1002198032644, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
 
@@ -231,6 +261,7 @@ async def handle_text(client, message):
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
+        inputvalue = removedup(inputvalue)
         await app.send_message(chat_id=message.chat.id, text=inputvalue)
         await app.send_message(chat_id=-1002198032644, text=inputvalue)
 
