@@ -53,8 +53,7 @@ keyword_to_chat_id = {
     tuple(amazon_keywords): amazon_id,
     tuple(flipkart_keywords): flipkart_id,
     tuple(meesho_keywords): meesho_id,
-    tuple(ajio_keywords): ajiomyntra_id,
-    tuple(cc_keywords): cc_id
+    tuple(ajio_keywords): ajiomyntra_id
 }
 
 
@@ -90,11 +89,11 @@ def extract_link_from_text2(text):
     return urls
 
 
-# def unshorten_url(short_url):
-#     unshortener = UnshortenIt()
-#     shorturi = unshortener.unshorten(short_url)
-#     # print(shorturi)
-#     return shorturi
+def unshorten_url2(short_url):
+    unshortener = UnshortenIt()
+    shorturi = unshortener.unshorten(short_url)
+    # print(shorturi)
+    return shorturi
 
 async def unshorten_url(url):
     try:
@@ -218,7 +217,11 @@ async def forward_message(client, message):
         unshortened_urls = {}
         urls = extract_link_from_text2(inputvalue)
         for url in urls:
-            unshortened_urls[url] = await unshorten_url(url)
+            if 'extp' in url or 'bitli' in url:
+                unshortened_urls[url]= unshorten_url2(url)
+            else:
+                unshortened_urls[url] = await unshorten_url(url)
+                
         for original_url, unshortened_url in unshortened_urls.items():
             inputvalue = inputvalue.replace(original_url, unshortened_url)
 
