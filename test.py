@@ -60,10 +60,10 @@ keyword_to_chat_id = {
     tuple(ajio_keywords): ajiomyntra_id
 }
 BANNER_MESSAGES = {
-    -1002049093974: "🔥Join t.me/amazon_loots_daily ❤️‍🔥",  # Replace with actual channel ID
-    -1002124607504: "💥 Join t.me/Flipkart_Loots_daily 💥",
-    -1002133412234: "🛍️ Join  t.me/Shopsy_Meesho_Deals 🛍️",
-    -1002146712649: " 👗 Join t.me/Ajio_myntra_Deals 😉"
+    -1002049093974: "🔥Search @amazon_loots_daily ❤️‍🔥",  # Replace with actual channel ID
+    -1002124607504: "💥 Search @Flipkart_Loots_daily 💥",
+    -1002133412234: "🛍️ Search  @Shopsy_Meesho_Deals 🛍️",
+    -1002146712649: " 👗 Search @Ajio_myntra_Deals 😉"
 }
 
 def extract_link_from_text(text):
@@ -181,7 +181,7 @@ def add_banner_to_image(image, text):
 
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("Join Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1")],
+        [[InlineKeyboardButton("All Loot Sirf Ek Click Mein", url="https://t.me/addlist/6R2xTLIL9JFkMWI1")],
           [InlineKeyboardButton("ALL Loots", url="https://t.me/Deals_and_Discounts_Channel2/34"),
         InlineKeyboardButton("Whatsapp", url="https://t.me/Deals_and_Discounts_Channel2/33")]
          ])
@@ -221,10 +221,10 @@ async def send(id, message):
 
                 # Send the bannered image
                 await app.send_photo(chat_id=id, photo=image_bytes,
-                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
+                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
                                      reply_markup=Promo)
             else:
-                await app.send_photo(chat_id=id, photo=image_bytes, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
+                await app.send_photo(chat_id=id, photo=image_bytes, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
                                  reply_markup=Promo)
 
         except Exception as e:
@@ -240,9 +240,9 @@ async def send(id, message):
             for url in urls:
                 # newurl = await unshorten_url(url)
                 Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️ 👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>", disable_web_page_preview=True)
         else:
-            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>", disable_web_page_preview=True)
 
 
 @bot.route('/')
