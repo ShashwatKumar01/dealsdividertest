@@ -1,5 +1,9 @@
+import tempfile
+from io import BytesIO
 
 import requests
+from PIL import Image ,ImageDraw,ImageFont
+
 from playwright.async_api import async_playwright
 from pyrogram import Client, filters, enums
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
@@ -42,9 +46,9 @@ ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra','mamaearth', 'bombaysh
     'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia','derma','clovia','zandu','renee','bellavita']
 # cc_keywords=['axis','hdfc','icici','sbm','sbi','credit','idfc','aubank','hsbc','Axis','Hdfc','Icici','Sbm','Sbi','Credit','Idfc','Aubank','Hsbc',
 #             'AXIS','HDFC','ICICI','SBM','SBI','CREDIT','IDFC','AUBANK','HSBC']
-cc_keywords = ['Apply Now', 'Lifetime Free', 'Apply for', ' Lifetime free', 'Benifits', 'Apply here', 'Lifetime FREE',
-               'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
-               'Annual fee', 'joining fee']
+# cc_keywords = ['Apply Now', 'Lifetime Free', 'Apply for', ' Lifetime free', 'Benifits', 'Apply here', 'Lifetime FREE',
+#                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
+#                'Annual fee', 'joining fee']
 
 shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili','biti','bitiy','bitIy']
 
@@ -55,7 +59,12 @@ keyword_to_chat_id = {
     tuple(meesho_keywords): meesho_id,
     tuple(ajio_keywords): ajiomyntra_id
 }
-
+BANNER_MESSAGES = {
+    -1002049093974: "🔥Join t.me/amazon_loots_daily ❤️‍🔥",  # Replace with actual channel ID
+    -1002124607504: "💥 Join t.me/Flipkart_Loots_daily 💥",
+    -1002133412234: "🛍️ Join  t.me/Shopsy_Meesho_Deals 🛍️",
+    -1002146712649: " 👗 Join t.me/Ajio_myntra_Deals 😉"
+}
 
 def extract_link_from_text(text):
     # Regular expression pattern to match a URL
@@ -138,6 +147,38 @@ def removedup(text):
 
     return cleaned_text
 
+def add_banner_to_image(image, text):
+
+    draw = ImageDraw.Draw(image)
+    width, height = image.size
+    banner_height = int(height * 0.12)  # Banner size (12% of image height)
+
+    # Create a banner overlay
+    banner = Image.new("RGB", (width, banner_height), color=(255, 0, 0))  # Red banner
+    draw_banner = ImageDraw.Draw(banner)
+
+    # Load font
+    try:
+        font = ImageFont.truetype("arial.ttf", size=int(banner_height * 0.5))  # Adjust font size
+    except:
+        font = ImageFont.load_default()  # Use default if arial.ttf is missing
+
+    # Get text bounding box (new method)
+    bbox = draw_banner.textbbox((0, 0), text, font=font)
+    text_width, text_height = bbox[2] - bbox[0], bbox[3] - bbox[1]
+
+    # Center text on the banner
+    text_position = ((width - text_width) // 2, (banner_height - text_height) // 2)
+    draw_banner.text(text_position, text, fill="white", font=font)
+
+    # Append banner to image
+    combined_image = Image.new("RGB", (width, height + banner_height))
+    combined_image.paste(image, (0, 0))
+    combined_image.paste(banner, (0, height))
+
+    return combined_image
+
+
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("Join Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1")],
@@ -146,24 +187,48 @@ async def send(id, message):
          ])
 
     if message.photo:
-        # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-        #     await message.download(file_name=temp_file.name)
-        #     with open(temp_file.name, 'rb') as f:
-        #         photo_bytes = BytesIO(f.read())
-        if 'tinyurl' in message.caption or 'amazon' in message.caption:
-            urls = extract_link_from_text2(message.caption)
-            Newtext = message.caption
+        try:
+            # Download image
+            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                await message.download(file_name=temp_file.name)
+                original_image = Image.open(temp_file.name).convert("RGB")
 
-            for url in urls:
-                # newurl = await unshorten_url(url)
-                Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{Newtext}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
+            # Debug: Check if image is loaded correctly
+            if original_image is None:
+                print("❌ Error: Image not loaded properly!")
+                return
+
+            # Create a bannered image
+            banner_text = BANNER_MESSAGES.get(id, "🔥 LIMITED DEALS 🔥")  # Default message if ID is not found
+            bannered_image = add_banner_to_image(original_image, banner_text)
+
+            # Debug: Check if bannered image is created properly
+            if bannered_image is None:
+                print("❌ Error: add_banner_to_image() returned None!")
+                return
+
+            # Save modified image to BytesIO
+            image_bytes = BytesIO()
+            bannered_image.save(image_bytes, format="JPEG")  # ✅ Avoids 'NoneType' error
+            image_bytes.seek(0)
+
+            # Modify caption with "Buy Now" links
+            if 'tinyurl' in message.caption or 'amazon' in message.caption:
+                urls = extract_link_from_text2(message.caption)
+                Newtext = message.caption
+                for url in urls:
+                    Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
+
+                # Send the bannered image
+                await app.send_photo(chat_id=id, photo=image_bytes,
+                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
+                                     reply_markup=Promo)
+            else:
+                await app.send_photo(chat_id=id, photo=image_bytes, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
                                  reply_markup=Promo)
 
-        else:
-            await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click HERE for MORE DEALS ! </a> 👈</b>",
-                                 reply_markup=Promo)
-
+        except Exception as e:
+            print(f"❌ Error in send function: {e}")
 
 
 
@@ -221,7 +286,7 @@ async def forward_message(client, message):
                 unshortened_urls[url]= unshorten_url2(url)
             else:
                 unshortened_urls[url] = await unshorten_url(url)
-                
+            
         for original_url, unshortened_url in unshortened_urls.items():
             inputvalue = inputvalue.replace(original_url, unshortened_url)
 
