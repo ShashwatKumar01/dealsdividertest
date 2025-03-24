@@ -181,36 +181,35 @@ def add_banner_to_image(image, text):
 
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("All Loot Sirf Ek Click Mein", url="https://t.me/addlist/6R2xTLIL9JFkMWI1")],
+        [[InlineKeyboardButton("🏠 All Loot Sirf Ek Click Mein", url="https://t.me/addlist/6R2xTLIL9JFkMWI1")],
           [InlineKeyboardButton("ALL Loots", url="https://t.me/Deals_and_Discounts_Channel2/34"),
         InlineKeyboardButton("Whatsapp", url="https://t.me/Deals_and_Discounts_Channel2/33")]
          ])
 
     if message.photo:
         try:
-            # Download image
-            with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-                await message.download(file_name=temp_file.name)
-                original_image = Image.open(temp_file.name).convert("RGB")
+            # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            #     await message.download(file_name=temp_file.name)
+            #     original_image = Image.open(temp_file.name).convert("RGB")
 
-            # Debug: Check if image is loaded correctly
-            if original_image is None:
-                print("❌ Error: Image not loaded properly!")
-                return
+            # # Debug: Check if image is loaded correctly
+            # if original_image is None:
+            #     print("❌ Error: Image not loaded properly!")
+            #     return
 
-            # Create a bannered image
-            banner_text = BANNER_MESSAGES.get(id, "🔥 LIMITED DEALS 🔥")  # Default message if ID is not found
-            bannered_image = add_banner_to_image(original_image, banner_text)
+            # # Create a bannered image
+            # banner_text = BANNER_MESSAGES.get(id, "🔥 LIMITED DEALS 🔥")  # Default message if ID is not found
+            # bannered_image = add_banner_to_image(original_image, banner_text)
 
-            # Debug: Check if bannered image is created properly
-            if bannered_image is None:
-                print("❌ Error: add_banner_to_image() returned None!")
-                return
+            # # Debug: Check if bannered image is created properly
+            # if bannered_image is None:
+            #     print("❌ Error: add_banner_to_image() returned None!")
+            #     return
 
-            # Save modified image to BytesIO
-            image_bytes = BytesIO()
-            bannered_image.save(image_bytes, format="JPEG")  # ✅ Avoids 'NoneType' error
-            image_bytes.seek(0)
+            # # Save modified image to BytesIO
+            # image_bytes = BytesIO()
+            # bannered_image.save(image_bytes, format="JPEG")  # ✅ Avoids 'NoneType' error
+            # image_bytes.seek(0)
 
             # Modify caption with "Buy Now" links
             if 'tinyurl' in message.caption or 'amazon' in message.caption:
@@ -220,11 +219,11 @@ async def send(id, message):
                     Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
 
                 # Send the bannered image
-                await app.send_photo(chat_id=id, photo=image_bytes,
+                await app.send_photo(chat_id=id, photo=message.photo.file_id,
                                      caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
                                      reply_markup=Promo)
             else:
-                await app.send_photo(chat_id=id, photo=image_bytes, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
+                await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
                                  reply_markup=Promo)
 
         except Exception as e:
