@@ -159,7 +159,7 @@ def add_banner_to_image(image, text):
 
     # Load font
     try:
-        font = ImageFont.truetype("arial.ttf", size=int(banner_height * 0.8))  # Adjust font size
+        font = ImageFont.truetype("arial.ttf", size=int(banner_height * 0.97))  # Adjust font size
     except:
         font = ImageFont.load_default()  # Use default if arial.ttf is missing
 
