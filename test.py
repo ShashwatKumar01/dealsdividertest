@@ -182,8 +182,8 @@ def add_banner_to_image(image, text):
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("🏠 All Loot Sirf Ek Click Mein", url="https://t.me/addlist/6R2xTLIL9JFkMWI1")],
-          [InlineKeyboardButton("ALL Loots", url="https://t.me/Deals_and_Discounts_Channel2/34"),
-        InlineKeyboardButton("Whatsapp", url="https://t.me/Deals_and_Discounts_Channel2/33")]
+          [InlineKeyboardButton("ALL Loots", url="https://t.me/Loots_Xpert/34"),
+        InlineKeyboardButton("Whatsapp", url="https://t.me/Loots_Xpert/33")]
          ])
 
     if message.photo:
