@@ -181,9 +181,8 @@ def add_banner_to_image(image, text):
 
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🏠 All Loot Sirf Ek Click Mein", url="https://t.me/addlist/6R2xTLIL9JFkMWI1")],
-          [InlineKeyboardButton("ALL Loots", url="https://t.me/Loots_Xpert/34"),
-        InlineKeyboardButton("Whatsapp", url="https://t.me/Loots_Xpert/33")]
+        [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),InlineKeyboardButton("🏠 Deal Bots", url="https://t.me/Loots_Xpert/51")],
+          [InlineKeyboardButton("⚡ Grab all Loots", url="https://t.me/Loots_Xpert/34"),InlineKeyboardButton("🎁 Whatsapp Deals", url="https://t.me/Loots_Xpert/33")]
          ])
 
     if message.photo:
@@ -220,10 +219,10 @@ async def send(id, message):
 
                 # Send the bannered image
                 await app.send_photo(chat_id=id, photo=message.photo.file_id,
-                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
+                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                      reply_markup=Promo)
             else:
-                await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>",
+                await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                  reply_markup=Promo)
 
         except Exception as e:
@@ -239,9 +238,9 @@ async def send(id, message):
             for url in urls:
                 # newurl = await unshorten_url(url)
                 Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️ 👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>", disable_web_page_preview=True)
         else:
-            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/+HeHY-qoy3vsxYWU1'>Join Main Channel</a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>", disable_web_page_preview=True)
 
 
 @bot.route('/')
