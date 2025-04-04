@@ -2,7 +2,7 @@ import tempfile
 from io import BytesIO
 
 import requests
-from PIL import Image ,ImageDraw,ImageFont
+from PIL import Image, ImageDraw, ImageFont
 
 from playwright.async_api import async_playwright
 from pyrogram import Client, filters, enums
@@ -14,7 +14,6 @@ import asyncio
 from quart import Quart
 from unshortenit import UnshortenIt
 from playwright.sync_api import sync_playwright
-
 
 api_id = '26566076'
 api_hash = '40ce27837b95819c42cac67b46a2dc2b'
@@ -36,21 +35,23 @@ cc_id = -1002078634799
 # beauty_id = -1002046497963
 
 amazon_keywords = ['amzn', 'amazon', 'tinyurl']
-flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq','noise','firebolt']
+flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt']
 meesho_keywords = ['meesho', 'shopsy', 'msho', 'wishlink']
-ajio_keywords = ['ajiio', 'myntr', 'xyxx','ajio','myntra','mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo', 'Tresemme', 'themancompany', 'wow', 'nykaa',
-    'mCaffeine', 'mcaffeine','Bombay Shaving Company', 'BSC', 'TMC', 'foxtale',
-    'fitspire', 'PUER','foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness','myglamm',
-    'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis',
-    'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow',
-    'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia','derma','clovia','zandu','renee','bellavita']
+ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo',
+                 'Tresemme', 'themancompany', 'wow', 'nykaa',
+                 'mCaffeine', 'mcaffeine', 'Bombay Shaving Company', 'BSC', 'TMC', 'foxtale',
+                 'fitspire', 'PUER', 'foxtaleskin', 'fitspire', 'pueronline', 'plumgoodness', 'myglamm',
+                 'himalayawellness', 'biotique', 'foreo', 'vega', 'maybelline', 'lorealparis',
+                 'lakmeindia', 'clinique', 'thebodyshop', 'sephora', 'naturesbasket', 'healthandglow',
+                 'colorbarcosmetics', 'sugarcosmetics', 'kamaayurveda', 'forestessentialsindia', 'derma', 'clovia',
+                 'zandu', 'renee', 'bellavita']
 # cc_keywords=['axis','hdfc','icici','sbm','sbi','credit','idfc','aubank','hsbc','Axis','Hdfc','Icici','Sbm','Sbi','Credit','Idfc','Aubank','Hsbc',
 #             'AXIS','HDFC','ICICI','SBM','SBI','CREDIT','IDFC','AUBANK','HSBC']
 # cc_keywords = ['Apply Now', 'Lifetime Free', 'Apply for', ' Lifetime free', 'Benifits', 'Apply here', 'Lifetime FREE',
 #                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
 #                'Annual fee', 'joining fee']
 
-shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili','biti','bitiy','bitIy']
+shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti', 'bitiy', 'bitIy']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
@@ -104,6 +105,7 @@ def unshorten_url2(short_url):
     # print(shorturi)
     return shorturi
 
+
 async def unshorten_url(url):
     try:
         async with async_playwright() as p:
@@ -116,6 +118,7 @@ async def unshorten_url(url):
     except Exception as e:
         print(f"Error: {e}")
         return None
+
 
 def removedup(text):
     urls = re.findall(r"https?://\S+", text)
@@ -147,8 +150,8 @@ def removedup(text):
 
     return cleaned_text
 
-def add_banner_to_image(image, text):
 
+def add_banner_to_image(image, text):
     draw = ImageDraw.Draw(image)
     width, height = image.size
     banner_height = int(height * 0.12)  # Banner size (12% of image height)
@@ -178,11 +181,21 @@ def add_banner_to_image(image, text):
 
     return combined_image
 
+def findpcode(url):
+    try:
+        product_code_match = re.search(r"/product/([A-Za-z0-9]{10})", url)
+        product_code_match2 = re.search(r'/dp/([A-Za-z0-9]{10})', url)
+        product_code = product_code_match.group(1) if product_code_match else product_code_match2.group(1)
+        return product_code
+    except Exception as e:
+        return
 
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),InlineKeyboardButton("🏠 Deal Bots", url="https://t.me/Loots_Xpert/51")],
-          [InlineKeyboardButton("⚡ Grab all Loots", url="https://t.me/Loots_Xpert/34"),InlineKeyboardButton("🎁 Whatsapp Deals", url="https://t.me/Loots_Xpert/33")]
+        [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),
+          InlineKeyboardButton("🏠 Deal Bots", url="https://t.me/Loots_Xpert/51")],
+         [InlineKeyboardButton("⚡ Grab all Loots", url="https://t.me/Loots_Xpert/34"),
+          InlineKeyboardButton("🎁 Whatsapp Deals", url="https://t.me/Loots_Xpert/33")]
          ])
 
     if message.photo:
@@ -215,15 +228,21 @@ async def send(id, message):
                 urls = extract_link_from_text2(message.caption)
                 Newtext = message.caption
                 for url in urls:
-                    Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
+                    pid=findpcode(url)
+                    if pid is not None:
+                        Newtext = Newtext.replace(url, f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                    else:
+                        Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
 
                 # Send the bannered image
+
                 await app.send_photo(chat_id=id, photo=message.photo.file_id,
-                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                     caption=f'<b>{Newtext}</b>' + "\n\n<b>👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                      reply_markup=Promo)
             else:
-                await app.send_photo(chat_id=id, photo=message.photo.file_id, caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
-                                 reply_markup=Promo)
+                await app.send_photo(chat_id=id, photo=message.photo.file_id,
+                                     caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                     reply_markup=Promo)
 
         except Exception as e:
             print(f"❌ Error in send function: {e}")
@@ -236,11 +255,19 @@ async def send(id, message):
             Newtext = message.text
 
             for url in urls:
-                # newurl = await unshorten_url(url)
-                Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
-            await app.send_message(chat_id=id, text=f'<b>{Newtext}</b>'+ "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>", disable_web_page_preview=True)
+                pid = findpcode(url)
+                if pid is not None:
+                    Newtext = Newtext.replace(url,
+                                              f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                else:
+                    Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
+            await app.send_message(chat_id=id,
+                                   text=f'<b>{Newtext}</b>' + "\n\n<b>👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                   disable_web_page_preview=True)
         else:
-            await app.send_message(chat_id=id, text=f'<b>{message.text}</b>'+"\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>", disable_web_page_preview=True)
+            await app.send_message(chat_id=id,
+                                   text=f'<b>{message.text}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                   disable_web_page_preview=True)
 
 
 @bot.route('/')
@@ -281,10 +308,10 @@ async def forward_message(client, message):
         urls = extract_link_from_text2(inputvalue)
         for url in urls:
             if 'extp' in url or 'bitli' in url:
-                unshortened_urls[url]= unshorten_url2(url)
+                unshortened_urls[url] = unshorten_url2(url)
             else:
                 unshortened_urls[url] = await unshorten_url(url)
-            
+
         for original_url, unshortened_url in unshortened_urls.items():
             inputvalue = inputvalue.replace(original_url, unshortened_url)
 
@@ -310,7 +337,7 @@ async def handle_text(client, message):
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
-        inputvalue=removedup(inputvalue)
+        inputvalue = removedup(inputvalue)
         await app.send_photo(chat_id=message.chat.id, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
         await app.send_photo(chat_id=-1002198032644, photo=message.photo.file_id, caption=f'<b>{inputvalue}</b>')
 
@@ -330,6 +357,7 @@ async def handle_text(client, message):
         inputvalue = removedup(inputvalue)
         await app.send_message(chat_id=message.chat.id, text=inputvalue)
         await app.send_message(chat_id=-1002198032644, text=inputvalue)
+
 
 @bot.before_serving
 async def before_serving():
