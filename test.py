@@ -200,6 +200,8 @@ async def send(id, message):
 
     if message.photo:
         try:
+            modifiedtxt = (message.caption).replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
+
             # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             #     await message.download(file_name=temp_file.name)
             #     original_image = Image.open(temp_file.name).convert("RGB")
@@ -225,12 +227,12 @@ async def send(id, message):
 
             # Modify caption with "Buy Now" links
             if 'tinyurl' in message.caption or 'amazon' in message.caption or 'amzn' in message.caption:
-                print('amzn working')
+                # print('amzn working')
                 urls = extract_link_from_text2(message.caption)
                 Newtext = message.caption
                 for url in urls:
                     pid=findpcode(unshorten_url2(url))
-                    print(pid,url)
+                    # print(pid,url)
                     if pid is not None:
                         if 'amzn' in url:
                             print('amzn in url')
@@ -241,7 +243,7 @@ async def send(id, message):
                         if 'amzn' not in url:
                             Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
 
-                print(Newtext)
+                # print(Newtext)
                 # Send the bannered image
 
                 await app.send_photo(chat_id=id, photo=message.photo.file_id,
@@ -249,7 +251,7 @@ async def send(id, message):
                                      reply_markup=Promo)
             else:
                 await app.send_photo(chat_id=id, photo=message.photo.file_id,
-                                     caption=f'<b>{message.caption}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                     caption=f'<b>{modifiedtxt}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                      reply_markup=Promo)
 
         except Exception as e:
@@ -258,6 +260,7 @@ async def send(id, message):
 
 
     elif message.text:
+        modifiedtxt=(message.text).replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
         if 'tinyurl' in message.text or 'amazon' in message.text or 'amzn' in message.text:
             urls = extract_link_from_text2(message.text)
             Newtext = message.text
@@ -279,7 +282,7 @@ async def send(id, message):
                                    disable_web_page_preview=True)
         else:
             await app.send_message(chat_id=id,
-                                   text=f'<b>{message.text}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
+                                   text=f'<b>{modifiedtxt}</b>' + "\n\n<b>🛍️  👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                    disable_web_page_preview=True)
 
 
@@ -346,7 +349,7 @@ async def handle_text(client, message):
                 hyperlinkurl.append(entity.url)
         pattern = re.compile(r'Buy Now')
 
-        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP').replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
+        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
@@ -363,7 +366,7 @@ async def handle_text(client, message):
                 hyperlinkurl.append(entity.url)
         pattern = re.compile(r'Buy Now')
 
-        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP').replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
+        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
