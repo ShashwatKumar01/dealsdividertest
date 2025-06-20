@@ -51,7 +51,7 @@ ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bomba
 #                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
 #                'Annual fee', 'joining fee']
 
-shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti', 'bitiy', 'bitIy']
+shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
@@ -224,16 +224,24 @@ async def send(id, message):
             # image_bytes.seek(0)
 
             # Modify caption with "Buy Now" links
-            if 'tinyurl' in message.caption or 'amazon' in message.caption:
+            if 'tinyurl' in message.caption or 'amazon' in message.caption or 'amzn' in message.caption:
+                print('amzn working')
                 urls = extract_link_from_text2(message.caption)
                 Newtext = message.caption
                 for url in urls:
-                    pid=findpcode(url)
+                    pid=findpcode(unshorten_url2(url))
+                    print(pid,url)
                     if pid is not None:
-                        Newtext = Newtext.replace(url, f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                        if 'amzn' in url:
+                            print('amzn in url')
+                            Newtext = Newtext.replace(url, f"{url}\n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                        else:
+                            Newtext = Newtext.replace(url, f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                     else:
-                        Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
+                        if 'amzn' not in url:
+                            Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
 
+                print(Newtext)
                 # Send the bannered image
 
                 await app.send_photo(chat_id=id, photo=message.photo.file_id,
@@ -250,17 +258,22 @@ async def send(id, message):
 
 
     elif message.text:
-        if 'tinyurl' in message.text or 'amazon' in message.text:
+        if 'tinyurl' in message.text or 'amazon' in message.text or 'amzn' in message.text:
             urls = extract_link_from_text2(message.text)
             Newtext = message.text
 
             for url in urls:
-                pid = findpcode(url)
+                pid = findpcode(unshorten_url2(url))
                 if pid is not None:
-                    Newtext = Newtext.replace(url,
-                                              f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                    if 'amzn' in url:
+                        Newtext = Newtext.replace(url,
+                                                  f"{url}\n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                    else:
+                        Newtext = Newtext.replace(url,
+                                                  f"<b><a href={url}>Buy Now</a> \n\n<a href='https://www.amazon.in/gp/aws/cart/add.html?ASIN.1={pid}&Quantity.1=1&tag=oploots-21'>🛍 Add to Cart</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                 else:
-                    Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
+                    if 'amzn' not in url:
+                        Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_message(chat_id=id,
                                    text=f'<b>{Newtext}</b>' + "\n\n<b>👉 <a href ='https://t.me/addlist/6R2xTLIL9JFkMWI1'>Click here to Join All Deals</a> 👈</b>",
                                    disable_web_page_preview=True)
