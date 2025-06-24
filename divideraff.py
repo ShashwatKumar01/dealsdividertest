@@ -4,7 +4,7 @@ from io import BytesIO
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
-from playwright.async_api import async_playwright
+# from playwright.async_api import async_playwright
 from pyrogram import Client, filters, enums
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid
 import logging
@@ -13,7 +13,7 @@ import re
 import asyncio
 from quart import Quart
 from unshortenit import UnshortenIt
-from playwright.sync_api import sync_playwright
+# from playwright.sync_api import sync_playwright
 import os
 from dotenv import load_dotenv
 
@@ -110,18 +110,18 @@ def unshorten_url2(short_url):
     return shorturi
 
 
-async def unshorten_url(url):
-    try:
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=True)
-            page = await browser.new_page()
-            await page.goto(url)
-            final_url = page.url
-            await browser.close()
-            return final_url
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
+# async def unshorten_url(url):
+#     try:
+#         async with async_playwright() as p:
+#             browser = await p.chromium.launch(headless=True)
+#             page = await browser.new_page()
+#             await page.goto(url)
+#             final_url = page.url
+#             await browser.close()
+#             return final_url
+#     except Exception as e:
+#         print(f"Error: {e}")
+#         return None
 
 
 def removedup(text):
@@ -327,10 +327,10 @@ async def forward_message(client, message):
         unshortened_urls = {}
         urls = extract_link_from_text2(inputvalue)
         for url in urls:
-            if 'extp' in url or 'bitli' in url:
-                unshortened_urls[url] = unshorten_url2(url)
-            else:
-                unshortened_urls[url] = await unshorten_url(url)
+            # if 'extp' in url or 'bitli' in url:
+            unshortened_urls[url] = unshorten_url2(url)
+            # else:
+                # unshortened_urls[url] = await unshorten_url(url)
 
         for original_url, unshortened_url in unshortened_urls.items():
             inputvalue = inputvalue.replace(original_url, unshortened_url)
