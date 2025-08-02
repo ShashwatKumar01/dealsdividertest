@@ -33,7 +33,7 @@ logger.setLevel(logging.INFO)
 source_channel_id = [-1002110764294]  # Replace with the source channel ID
 amazon_id = -1002049093974
 flipkart_id = -1002124607504
-meesho_id = -1002133412234
+meesho_id = -1002194362897
 ajiomyntra_id = -1002146712649
 cc_id = -1002078634799
 # beauty_id = -1002046497963
@@ -396,3 +396,4 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
