@@ -194,17 +194,35 @@ def findpcode(url):
     except Exception as e:
         return
 
+def compilehyperlink(message):
+    text = message.caption if message.caption else message.text
+    inputvalue = text
+    hyperlinkurl = []
+    entities = message.caption_entities if message.caption else message.entities
+    for entity in entities:
+        # new_entities.append(entity)
+        if entity.url is not None:
+            hyperlinkurl.append(entity.url)
+    pattern = re.compile(r'Buy Now')
+
+    inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
+    if "😱 Deal Time" in inputvalue:
+        # Remove the part
+        inputvalue = removedup(inputvalue)
+        inputvalue = (inputvalue.split("😱 Deal Time")[0]).strip()
+    return inputvalue
+
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),
           InlineKeyboardButton("🏠 Deal Bots", url="https://t.me/Loots_Xpert/51")],
          [InlineKeyboardButton("⚡ Grab all Loots", url="https://t.me/Loots_Xpert/34"),
-          InlineKeyboardButton("🎁 Whatsapp Deals", url="https://t.me/Loots_Xpert/33")]
+          InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
          ])
 
     if message.photo:
         try:
-            modifiedtxt = (message.caption).replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
+            modifiedtxt = compilehyperlink(message).replace('@under_99_loot_deals', '@shopsymeesho')
 
             # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             #     await message.download(file_name=temp_file.name)
@@ -230,10 +248,10 @@ async def send(id, message):
             # image_bytes.seek(0)
 
             # Modify caption with "Buy Now" links
-            if 'tinyurl' in message.caption or 'amazon' in message.caption or 'amzn' in message.caption:
+            if 'tinyurl' in modifiedtxt or 'amazon' in modifiedtxt or 'amzn' in modifiedtxt:
                 # print('amzn working')
-                urls = extract_link_from_text2(message.caption)
-                Newtext = message.caption
+                urls = extract_link_from_text2(modifiedtxt)
+                Newtext = modifiedtxt
                 for url in urls:
                     pid=findpcode(unshorten_url2(url))
                     # print(pid,url)
@@ -264,10 +282,10 @@ async def send(id, message):
 
 
     elif message.text:
-        modifiedtxt=(message.text).replace('@under_99_loot_deals', '@shopsy_meesho_Deals')
-        if 'tinyurl' in message.text or 'amazon' in message.text or 'amzn' in message.text:
-            urls = extract_link_from_text2(message.text)
-            Newtext = message.text
+        modifiedtxt=compilehyperlink(message).replace('@under_99_loot_deals', '@shopsymeesho')
+        if 'tinyurl' in modifiedtxt or 'amazon' in modifiedtxt or 'amzn' in modifiedtxt:
+            urls = extract_link_from_text2(modifiedtxt)
+            Newtext = modifiedtxt
 
             for url in urls:
                 pid = findpcode(unshorten_url2(url))
@@ -396,4 +414,5 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
