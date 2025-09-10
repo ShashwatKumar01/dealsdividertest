@@ -258,7 +258,7 @@ async def send(id, message):
                     if pid is not None:
                         if 'amzn' in url:
                             print('amzn in url')
-                            Newtext = Newtext.replace(url, f"{url} | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                            Newtext = Newtext.replace(url, f"{url}\n\n<a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                         else:
                             Newtext = Newtext.replace(url, f"<b><a href={url}>Buy Now</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                     else:
@@ -292,7 +292,7 @@ async def send(id, message):
                 if pid is not None:
                     if 'amzn' in url:
                         Newtext = Newtext.replace(url,
-                                                  f"{url} | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
+                                                  f"{url}\n\n<a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                     else:
                         Newtext = Newtext.replace(url,
                                                   f"<b><a href={url}>Buy Now</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
@@ -438,6 +438,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
 
