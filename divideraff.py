@@ -16,12 +16,12 @@ from unshortenit import UnshortenIt
 # from playwright.sync_api import sync_playwright
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
-
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 # Define a handler for the /start command
@@ -35,9 +35,13 @@ amazon_id = -1002049093974
 flipkart_id = -1002124607504
 meesho_id = -1002194362897
 ajiomyntra_id = -1002146712649
-cc_id = -1002078634799
+zepto_id= -1003142158240
+
 # beauty_id = -1002046497963
 
+
+zepto_keywords=['jiomart','Amazon Fresh','blinkit','zepto','swiggy','bigbasket','Instamart','Flipkart minutes','instamart','Blinkit',
+                'Zepto','Swiggy','flipkart minutes','minutes loot']
 amazon_keywords = ['amzn', 'amazon', 'tinyurl']
 flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt']
 meesho_keywords = ['meesho', 'shopsy', 'msho', 'wishlink']
@@ -59,21 +63,23 @@ shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
+    tuple(zepto_keywords):zepto_id,
     tuple(amazon_keywords): amazon_id,
     tuple(flipkart_keywords): flipkart_id,
     tuple(meesho_keywords): meesho_id,
     tuple(ajio_keywords): ajiomyntra_id
 }
 BANNER_MESSAGES = {
-    -1002049093974: "🔥Search @amazon_loots_daily ❤️‍🔥",  # Replace with actual channel ID
-    -1002124607504: "💥 Search @Flipkart_Loots_daily 💥",
-    -1002133412234: "🛍️ Search  @Shopsy_Meesho_Deals 🛍️",
-    -1002146712649: " 👗 Search @Ajio_myntra_Deals 😉"
+    -1002049093974: "🔥Join @Lootsxpert❤️‍🔥",  # Replace with actual channel ID
+    -1002124607504: "💥 Join @Lootsxpert 💥",
+    -1002133412234: "🛍️ Join  @Lootsxpert",
+    -1002146712649: " 👗 Join @Lootsxpert ",
+    -1003142158240:" Join @Lootsxpert"
 }
 # =========================
 # 📌 Silent Control
 # =========================
-silent_interval = 2   # Default: notify every 2nd post
+silent_interval = 3   # Default: notify every 2nd post
 post_counter = {}     # Track posts per target channel
 
 def extract_link_from_text(text):
@@ -171,7 +177,7 @@ def add_banner_to_image(image, text):
 
     # Load font
     try:
-        font = ImageFont.truetype("arial.ttf", size=int(banner_height * 0.97))  # Adjust font size
+        font = ImageFont.truetype("arial.ttf", size=int(banner_height * 0.95))  # Adjust font size
     except:
         font = ImageFont.load_default()  # Use default if arial.ttf is missing
 
@@ -229,7 +235,6 @@ def should_notify(chat_id: int) -> bool:
     return post_counter[chat_id] % silent_interval == 0
 
 
-
 async def send(id, message):
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),
@@ -238,33 +243,37 @@ async def send(id, message):
           InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
          ])
     notify = should_notify(id)   # ✅ Added line
-    # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-    #     await message.download(file_name=temp_file.name)
-    #     original_image = Image.open(temp_file.name).convert("RGB")
-    #
-    # # Debug: Check if image is loaded correctly
-    # if original_image is None:
-    #     print("❌ Error: Image not loaded properly!")
-    #     return
-    #
-    # # Create a bannered image
-    # banner_text = BANNER_MESSAGES.get(id, "🔥 LIMITED DEALS 🔥")  # Default message if ID is not found
-    # bannered_image = add_banner_to_image(original_image, banner_text)
-    #
-    # # Debug: Check if bannered image is created properly
-    # if bannered_image is None:
-    #     print("❌ Error: add_banner_to_image() returned None!")
-    #     return
-    #
-    # # Save modified image to BytesIO
-    # image_bytes = BytesIO()
-    # bannered_image.save(image_bytes, format="JPEG")  # ✅ Avoids 'NoneType' error
-    # image_bytes.seek(0)
-
 
     if message.photo:
         try:
             modifiedtxt = compilehyperlink(message).replace('@under_99_loot_deals', '@shopsymeesho')
+
+            # banner
+
+            # with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            #
+            #     await message.download(file_name=temp_file.name)
+            #     original_image = Image.open(temp_file.name).convert("RGB")
+            #
+            # # Debug: Check if image is loaded correctly
+            # if original_image is None:
+            #     print("❌ Error: Image not loaded properly!")
+            #     return
+            #
+            # # Create a bannered image
+            # banner_text = BANNER_MESSAGES.get(id, "🔥 LIMITED DEALS 🔥")  # Default message if ID is not found
+            # bannered_image = add_banner_to_image(original_image, banner_text)
+            #
+            # # Debug: Check if bannered image is created properly
+            # if bannered_image is None:
+            #     print("❌ Error: add_banner_to_image() returned None!")
+            #     return
+            #
+            # # Save modified image to BytesIO
+            # image_bytes = BytesIO()
+            # bannered_image.save(image_bytes, format="JPEG")  # ✅ Avoids 'NoneType' error
+            # image_bytes.seek(0)
+
             # Modify caption with "Buy Now" links
             if 'tinyurl' in modifiedtxt or 'amazon' in modifiedtxt or 'amzn' in modifiedtxt:
                 # print('amzn working')
@@ -288,13 +297,17 @@ async def send(id, message):
                 # print(Newtext)
                 # Send the bannered image
 
-                await app.send_photo(chat_id=id, photo=message.photo.file_id,
+                await app.send_photo(chat_id=id,
+                                     photo=message.photo.file_id,
+                                     # photo=image_bytes,
                                      caption=f'<b>{Newtext}</b>' + "\n\n<b>👉 <a href ='https://t.me/addlist/zzZb8Deuzy9kZjQ1'>Click here to Join All Deals</a></b>",
                                      reply_markup=Promo,
                                      disable_notification = not notify  # ✅ Added
                 )
             else:
-                await app.send_photo(chat_id=id, photo=message.photo.file_id,
+                await app.send_photo(chat_id=id,
+                                     photo=message.photo.file_id,
+                                     # photo=image_bytes,
                                      caption=f'<b>{modifiedtxt}</b>' + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/zzZb8Deuzy9kZjQ1'>Click here to Join All Deals</a></b>",
                                      reply_markup=Promo,
                                      disable_notification = not notify)
@@ -306,6 +319,7 @@ async def send(id, message):
 
     elif message.text:
         modifiedtxt = compilehyperlink(message).replace('@under_99_loot_deals', '@shopsymeesho')
+
         if 'tinyurl' in modifiedtxt or 'amazon' in modifiedtxt or 'amzn' in modifiedtxt:
             urls = extract_link_from_text2(modifiedtxt)
             Newtext = modifiedtxt
@@ -323,11 +337,11 @@ async def send(id, message):
                     if 'amzn' not in url:
                         Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_message(chat_id=id,
-                                   text=f'<b>{Newtext}</b>',
+                                   text=f'<b>{Newtext} \n\n🅻🅾🅾🆃🆂🆇🅿🅴🆁🆃</b>',
                                    disable_web_page_preview=True,disable_notification = not notify)
         else:
             await app.send_message(chat_id=id,
-                                   text=f'<b>{modifiedtxt}</b>',
+                                   text=f'<b>{modifiedtxt}\n\n🅻🅾🅾🆃🆂🆇🅿🅴🆁🆃</b>',
                                    disable_web_page_preview=True,disable_notification = not notify)
 
 
@@ -349,6 +363,8 @@ async def set_silent_interval(client, message):
         await message.reply_text(f"✅ Silent interval set: Every {silent_interval} post will notify.")
     except:
         await message.reply_text("❌ Usage: /silent_2")
+
+
 ################forward on off#################################################################
 global forward
 forward = True
@@ -478,6 +494,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
 
