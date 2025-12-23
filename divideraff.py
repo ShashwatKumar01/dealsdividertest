@@ -22,6 +22,7 @@ load_dotenv()
 api_id = int(os.getenv("API_ID"))
 api_hash = os.getenv("API_HASH")
 bot_token = os.getenv("BOT_TOKEN")
+apitoken=os.getenv('EARNKARO_API_TOKEN')
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
 # Define a handler for the /start command
@@ -36,14 +37,13 @@ flipkart_id = -1002124607504
 meesho_id = -1002194362897
 ajiomyntra_id = -1002146712649
 zepto_id= -1003142158240
-
-# beauty_id = -1002046497963
+private_channel=[-1002616119812]
 
 
 zepto_keywords=['jiomart','Amazon Fresh','blinkit','zepto','swiggy','bigbasket','Instamart','Flipkart minutes','instamart','Blinkit',
-                'Zepto','Swiggy','flipkart minutes','minutes loot','Flipkart Minutes','Jiomart']
+                'Zepto','Swiggy','flipkart minutes','minutes loot']
 amazon_keywords = ['amzn', 'amazon', 'tinyurl','amazn']
-flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt','Flipkart']
+flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt']
 meesho_keywords = ['meesho', 'shopsy', 'msho']
 ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo',
                  'Tresemme', 'themancompany', 'wow', 'nykaa',
@@ -59,7 +59,7 @@ ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bomba
 #                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
 #                'Annual fee', 'joining fee']
 
-shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','bittli','wishlink','cutt.ly']
+shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','wishlink']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
@@ -233,7 +233,7 @@ def should_notify(chat_id: int) -> bool:
         post_counter[chat_id] = 0
     post_counter[chat_id] += 1
     return post_counter[chat_id] % silent_interval == 0
-  
+
 def should_block_message(text: str) -> bool:
     """
     Block if '@' is followed by ANY letter (a-z / A-Z) without a space.
@@ -257,12 +257,13 @@ def should_block_message(text: str) -> bool:
     return False
 
 async def send(id, message):
+
     text2 = message.caption if message.caption else message.text
     if should_block_message(text2):
         await app.send_message(chat_id=5886397642,text='Just Blocked a Promo')
         return
 
-  
+
     Promo = InlineKeyboardMarkup(
         [[InlineKeyboardButton("🏠 Main Channel", url="https://t.me/+HeHY-qoy3vsxYWU1"),
           InlineKeyboardButton("🏠 Deal Bots", url="https://t.me/Loots_Xpert/51")],
@@ -465,9 +466,52 @@ async def forward_message(client, message):
                 await send(chat_id, message)
 
 
+@app.on_message(filters.chat(private_channel))
+async def forward_message(client, message):
+    # print('pp', message.id)
+
+    text = message.caption or message.text or ""
+    text = text.replace('- Sent via TeleFeed', '')
+    if not text:
+        return
+
+    text2 = None  # 🔑 IMPORTANT
+
+    try:
+        if 'shopsy' in text or 'amazon.in' in text:
+            text2 = await asyncio.get_event_loop().run_in_executor(
+                None, ekconvert, text
+            )
+            print(f'Found a Shopsy/Amazon deal with ID {message.id}')
+
+        if text2 and 'We could not locate' not in text2:
+            text = text2
+        else:
+            print('aff url not found')
+
+        if message.photo:
+            await app.edit_message_caption(
+                chat_id=message.chat.id,
+                message_id=message.id,
+                caption=text
+            )
+        else:
+            await app.edit_message_text(
+                chat_id=message.chat.id,
+                message_id=message.id,
+                text=text,
+                disable_web_page_preview=True
+            )
+
+    except Exception as e:
+        print("Conversion failed:", repr(e))
+
+
+
 @app.on_message(filters.group & filters.incoming)
 async def handle_text(client, message):
     if message.photo:
+
         text = message.caption if message.caption else message.text
         inputvalue = text
 
@@ -504,6 +548,29 @@ async def handle_text(client, message):
         await app.send_message(chat_id=-1002198032644, text=inputvalue)
 
 
+def ekconvert(text):
+    url = "https://ekaro-api.affiliaters.in/api/converter/public"
+
+    # inputtext = input('enter deal: ')
+    payload = json.dumps({
+        "deal": f"{text}",
+        "convert_option": "convert_only"
+    })
+    headers = {
+        'Authorization': f'Bearer {apitoken}',
+        'Content-Type': 'application/json'
+    }
+
+    response = requests.request("POST", url, headers=headers, data=payload)
+
+    # print(response.text)
+    response_dict = json.loads(response.text)
+
+    # Extract the "data" part from the dictionary
+    data_value = response_dict.get('data')
+
+    return(data_value)
+
 @bot.before_serving
 async def before_serving():
     await app.start()
@@ -521,18 +588,3 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
