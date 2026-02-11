@@ -311,8 +311,8 @@ async def send(id, message):
                     pid = findpcode(unshorten_url2(url))
                     # print(pid,url)
                     if pid is not None:
-                        if 'amzn' in url:
-                            print('amzn in url')
+                        if 'amzn' in url or 'amazn' in url:
+                            # print('amzn in url')
                             Newtext = Newtext.replace(url,
                                                       f"{url}\n\n<a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                         else:
@@ -588,5 +588,6 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
