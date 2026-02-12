@@ -481,8 +481,8 @@ async def forward_message(client, message):
                     ),
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton(
-                            "🏠 Join LootWali Group",
-                            url="https://t.me/+DFP3S9RMq1hmNjU1"
+                            "Join Karo & Paisaa Bachao 🛍️",
+                            url="https://t.me/addlist/zzZb8Deuzy9kZjQ1"
                         )]]
                     )
                 )
@@ -642,5 +642,6 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
