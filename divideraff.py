@@ -525,7 +525,7 @@ async def forward_message(client, message):
     # print('pp', message.id)
 
     text = message.caption or message.text or ""
-    text = text.replace('- Sent via TeleFeed', '')
+    text = text.replace('- Sent via TeleFeed', '').replace('• Sent via TeleFeed','')
     if not text:
         return
 
@@ -642,6 +642,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
 
