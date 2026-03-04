@@ -44,7 +44,7 @@ zepto_keywords=['jiomart','Amazon Fresh','blinkit','zepto','swiggy','bigbasket',
                 'Zepto','Swiggy','flipkart minutes','minutes loot','ONDC','Zomato','Blinkit']
 amazon_keywords = ['amzn', 'amazon', 'tinyurl','amazn']
 flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt']
-meesho_keywords = ['meesho', 'shopsy', 'msho']
+meesho_keywords = ['meesho', 'shopsy', 'msho','lehlah']
 ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo',
                  'Tresemme', 'themancompany', 'wow', 'nykaa',
                  'mCaffeine', 'mcaffeine', 'Bombay Shaving Company', 'BSC', 'TMC', 'foxtale',
@@ -385,7 +385,7 @@ async def send(id, message,processed):
             for url in urls:
                 pid = findpcode(unshorten_url2(url))
                 if pid is not None:
-                    if 'amzn' in url:
+                    if 'amzn' in url or 'amazn' in url:
                         Newtext = Newtext.replace(url,
                                                   f"{url}\n\n<a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                     else:
@@ -642,6 +642,7 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
+
 
 
 
