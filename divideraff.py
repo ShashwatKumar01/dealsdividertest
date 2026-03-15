@@ -59,7 +59,7 @@ ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bomba
 #                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
 #                'Annual fee', 'joining fee']
 
-shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','wishlink','bittli','cutt.ly','bilty','cuttli']
+shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','wishlink','bittli','cutt.ly','bilty','cuttli','bilty.co']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
