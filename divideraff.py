@@ -43,7 +43,7 @@ private_channel=[-1002616119812]
 zepto_keywords=['jiomart','Amazon Fresh','blinkit','zepto','swiggy','bigbasket','Instamart','Flipkart minutes','instamart','Blinkit',
                 'Zepto','Swiggy','flipkart minutes','minutes loot','ONDC','Zomato','Blinkit']
 amazon_keywords = ['amzn', 'amazon', 'tinyurl','amazn']
-flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt']
+flipkart_keywords = ['fkrt', 'flipkart', 'boat', 'croma', 'tatacliq', 'fktr', 'Boat', 'Tatacliq', 'noise', 'firebolt','fkart']
 meesho_keywords = ['meesho', 'shopsy', 'msho','lehlah']
 ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bombayshavingcompany', 'beardo', 'Beardo',
                  'Tresemme', 'themancompany', 'wow', 'nykaa',
@@ -59,7 +59,7 @@ ajio_keywords = ['ajiio', 'myntr', 'xyxx', 'ajio', 'myntra', 'mamaearth', 'bomba
 #                'ELIGIBILITY', 'Myzone', 'Rupay', 'rupay', 'Complimentary', 'Apply from here', 'annual fee',
 #                'Annual fee', 'joining fee']
 
-shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','wishlink','bittli','cutt.ly','bilty','cuttli','bilty.co']
+shortnerfound = ['extp', 'bitli', 'bit.ly', 'bitly', 'bitili', 'biti','wishlink','bittli','cutt.ly','bilty','cuttli','bilty.co','bttly']
 
 # tuple(amazon_keywords): amazon_id,
 keyword_to_chat_id = {
@@ -395,11 +395,11 @@ async def send(id, message,processed):
                     if 'amzn' not in url:
                         Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_message(chat_id=id,
-                                   text=f'<b>{Newtext} \n\n🅻🅾🅾🆃🆂🆇🅿🅴🆁🆃</b>',
+                                   text=f'<b>{Newtext}</b>',
                                    disable_web_page_preview=True,disable_notification = not notify)
         else:
             await app.send_message(chat_id=id,
-                                   text=f'<b>{modifiedtxt}\n\n🅻🅾🅾🆃🆂🆇🅿🅴🆁🆃</b>',
+                                   text=f'<b>{modifiedtxt}</b>',
                                    disable_web_page_preview=True,disable_notification = not notify)
 
 
