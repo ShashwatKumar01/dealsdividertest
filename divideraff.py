@@ -35,7 +35,7 @@ source_channel_id = [-1002110764294]  # Replace with the source channel ID
 amazon_id = -1002049093974
 flipkart_id = -1003190659977
 meesho_id = -1002194362897
-ajiomyntra_id = -1002146712649
+ajiomyntra_id = -1003839996583
 zepto_id= -1003142158240
 private_channel=[-1002616119812]
 
@@ -291,7 +291,7 @@ async def send(id, message,processed):
 
 
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🏠 Join Deals Group", url="https://t.me/+VQo_PHfTYW02MGI1"),
+        [[InlineKeyboardButton("🏠 Join Group", url="https://t.me/+VQo_PHfTYW02MGI1"),
           InlineKeyboardButton("🤖 Deal Bots", url="https://t.me/Loots_Xpert/51")],
          [InlineKeyboardButton("⚡ All Channels", url="https://t.me/Loots_Xpert/34"),
           InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
@@ -642,10 +642,3 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(bot.run_task(host='0.0.0.0', port=8080))
     loop.run_forever()
-
-
-
-
-
-
-
