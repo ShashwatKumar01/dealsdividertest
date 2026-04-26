@@ -463,6 +463,7 @@ async def forward_message(client, message):
 
     if current_time - last_processed_time < 5:  # 👈 adjust seconds
         print("⚠️ Blocked fast message:", message.id)
+        await app.send_message(chat_id=5886397642,text='Blocked fast messages')
         return
 
     if forward == True:
