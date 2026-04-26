@@ -454,9 +454,17 @@ async def callback_query(app, CallbackQuery):
 
 
 ########################################################################################
+last_processed_time = 0
 
 @app.on_message(filters.chat(source_channel_id))
 async def forward_message(client, message):
+    global last_processed_time
+    current_time = asyncio.get_event_loop().time()
+
+    if current_time - last_processed_time < 5:  # 👈 adjust seconds
+        print("⚠️ Blocked fast message:", message.id)
+        return
+
     if forward == True:
         inputvalue = ''
         processed =None
@@ -538,10 +546,12 @@ async def forward_message(client, message):
             )
             print(f'Found a Shopsy/Amazon deal with ID {message.id}')
 
-        if text2 and 'We could not locate' not in text2:
-            text = text2
+            if text2 and 'We could not locate' not in text2:
+                text = text2
+            else:
+                print('aff url not found')
         else:
-            print('aff url not found')
+            return
 
         if message.photo:
             await app.edit_message_caption(
