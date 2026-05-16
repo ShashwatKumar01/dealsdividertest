@@ -348,6 +348,8 @@ async def send(id, message,processed):
                                                       f"<b><a href={url}>Buy Now</a> | <a href='t.me/Amazon_Pricehistory_bot?start={pid}'>📊 PriceHistory</a></b>")
                     else:
                         if 'amzn' not in url or 'amazn' in url:
+                            Newtext = Newtext.replace(url, f'<b>{url}</b>')
+                        else:
                             Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
 
                 # print(Newtext)
