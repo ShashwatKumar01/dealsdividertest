@@ -521,7 +521,7 @@ async def send(id, message,processed):
 
 
     Promo = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("🏠 Join Group", url="https://t.me/+VQo_PHfTYW02MGI1"),
+        [[InlineKeyboardButton("🏠 Join 2.0 ", url="https://t.me/+mUXCQYrUiKg0NDQ1"),
           InlineKeyboardButton("🤖 Deal Bots", url="https://t.me/Loots_Xpert/51")],
          [InlineKeyboardButton("⚡ All Channels", url="https://t.me/Loots_Xpert/34"),
           InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
