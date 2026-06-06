@@ -728,7 +728,7 @@ async def forward_message(client, message):
                     reply_markup=InlineKeyboardMarkup(
                         [[InlineKeyboardButton(
                             "Join Karo & Paisaa Bachao 🛍️",
-                            url="https://t.me/addlist/zzZb8Deuzy9kZjQ1"
+                            url="https://t.me/addlist/JDGmDj8IcG80ZDM1"
                         )]]
                     )
                 )
