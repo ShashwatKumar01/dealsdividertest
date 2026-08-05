@@ -370,7 +370,10 @@ def compilehyperlink(message):
             hyperlinkurl.append(entity.url)
     pattern = re.compile(r'Buy Now')
 
-    inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
+    def _replace_buy_now(match):
+        return hyperlinkurl.pop(0) if hyperlinkurl else match.group(0)
+
+    inputvalue = pattern.sub(_replace_buy_now, inputvalue).replace('Regular Price', 'MRP')
     if "😱 Deal Time" in inputvalue:
         # Remove the part
         inputvalue = removedup(inputvalue)
@@ -833,7 +836,10 @@ async def handle_text(client, message):
                 hyperlinkurl.append(entity.url)
         pattern = re.compile(r'Buy Now')
 
-        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
+        def _replace_buy_now(match):
+            return hyperlinkurl.pop(0) if hyperlinkurl else match.group(0)
+
+        inputvalue = pattern.sub(_replace_buy_now, inputvalue).replace('Regular Price', 'MRP')
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
@@ -850,7 +856,10 @@ async def handle_text(client, message):
                 hyperlinkurl.append(entity.url)
         pattern = re.compile(r'Buy Now')
 
-        inputvalue = pattern.sub(lambda x: hyperlinkurl.pop(0), inputvalue).replace('Regular Price', 'MRP')
+        def _replace_buy_now(match):
+            return hyperlinkurl.pop(0) if hyperlinkurl else match.group(0)
+
+        inputvalue = pattern.sub(_replace_buy_now, inputvalue).replace('Regular Price', 'MRP')
         if "😱 Deal Time" in inputvalue:
             # Remove the part
             inputvalue = inputvalue.split("😱 Deal Time")[0]
