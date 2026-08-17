@@ -105,6 +105,30 @@ BANNER_MESSAGES = {
 silent_interval = 3   # Default: notify every 2nd post
 post_counter = {}     # Track posts per target channel
 
+# =========================
+# 📢 Promo Control
+# =========================
+promo_enabled = False  # Toggled by /promo_on and /promo_off
+
+PROMO_KEYBOARD = InlineKeyboardMarkup(
+    [[InlineKeyboardButton("🏠 Join 2.0 ", url="https://t.me/+mUXCQYrUiKg0NDQ1"),
+      InlineKeyboardButton("🤖 Deal Bots", url="https://t.me/Loots_Xpert/51")],
+     [InlineKeyboardButton("⚡ All Channels", url="https://t.me/Loots_Xpert/34"),
+      InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
+     ])
+
+PROMO_FOOTER = "\n\n<b>🛍️ 👉 <a href='https://t.me/addlist/zzZb8Deuzy9kZjQ1'>Click here to Join All Deals</a></b>"
+
+
+def promo_markup():
+    """Inline promo keyboard when promo is on, else None."""
+    return PROMO_KEYBOARD if promo_enabled else None
+
+
+def promo_footer():
+    """Join-all-deals footer when promo is on, else empty string."""
+    return PROMO_FOOTER if promo_enabled else ""
+
 def extract_link_from_text(text):
     # Regular expression pattern to match a URL
     url_pattern = r'https?://\S+'
@@ -532,13 +556,6 @@ async def send(id, message,processed):
         await app.send_message(chat_id=5886397642,text='Just Blocked a Promo')
         return
 
-
-    # Promo = InlineKeyboardMarkup(
-    #     [[InlineKeyboardButton("🏠 Join 2.0 ", url="https://t.me/+mUXCQYrUiKg0NDQ1"),
-    #       InlineKeyboardButton("🤖 Deal Bots", url="https://t.me/Loots_Xpert/51")],
-    #      [InlineKeyboardButton("⚡ All Channels", url="https://t.me/Loots_Xpert/34"),
-    #       InlineKeyboardButton("🎁 Whatsapp Deals", url="https://whatsapp.com/channel/0029VanELRF9WtC8Cqoeaj1f")]
-    #      ])
     notify = should_notify(id)   # ✅ Added line
 
     if message.photo:
@@ -605,9 +622,8 @@ async def send(id, message,processed):
                                      # photo=message.photo.file_id,
                                      # photo=image_bytes
                                      photo=processed,
-                                     caption=f'<b>{Newtext}</b>',
-                                     # + "\n\n<b>👉 <a href ='https://t.me/addlist/zzZb8Deuzy9kZjQ1'>Click here to Join All Deals</a></b>",
-                                     # reply_markup=Promo,
+                                     caption=f'<b>{Newtext}</b>' + promo_footer(),
+                                     reply_markup=promo_markup(),
                                      disable_notification = not notify  # ✅ Added
                 )
             else:
@@ -616,9 +632,8 @@ async def send(id, message,processed):
                                      # photo=message.photo.file_id,
                                      # photo=image_bytes,
                                      photo=processed,
-                                     caption=f'<b>{modifiedtxt}</b>',
-                                     # + "\n\n<b>🛍️ 👉 <a href ='https://t.me/addlist/zzZb8Deuzy9kZjQ1'>Click here to Join All Deals</a></b>",
-                                     # reply_markup=Promo,
+                                     caption=f'<b>{modifiedtxt}</b>' + promo_footer(),
+                                     reply_markup=promo_markup(),
                                      disable_notification = not notify)
 
         except Exception as e:
@@ -647,11 +662,13 @@ async def send(id, message,processed):
                     if 'amzn' not in url:
                         Newtext = Newtext.replace(url, f'<b><a href={url}>Buy Now</a></b>')
             await app.send_message(chat_id=id,
-                                   text=f'<b>{Newtext}</b>',
+                                   text=f'<b>{Newtext}</b>' + promo_footer(),
+                                   reply_markup=promo_markup(),
                                    disable_web_page_preview=True,disable_notification = not notify)
         else:
             await app.send_message(chat_id=id,
-                                   text=f'<b>{modifiedtxt}</b>',
+                                   text=f'<b>{modifiedtxt}</b>' + promo_footer(),
+                                   reply_markup=promo_markup(),
                                    disable_web_page_preview=True,disable_notification = not notify)
 
 
@@ -673,6 +690,26 @@ async def set_silent_interval(client, message):
         await message.reply_text(f"✅ Silent interval set: Every {silent_interval} post will notify.")
     except:
         await message.reply_text("❌ Usage: /silent_2")
+
+
+################promo on off##################################################################
+@app.on_message(filters.command('promo_on') & filters.user(5886397642))
+async def promo_on(client, message):
+    global promo_enabled
+    promo_enabled = True
+    await message.reply_text("✅ Promo ON — buttons + 'Click here to Join All Deals' will be added.")
+
+
+@app.on_message(filters.command('promo_off') & filters.user(5886397642))
+async def promo_off(client, message):
+    global promo_enabled
+    promo_enabled = False
+    await message.reply_text("🚫 Promo OFF — buttons and join text removed.")
+
+
+@app.on_message(filters.command('promo_status') & filters.user(5886397642))
+async def promo_status(client, message):
+    await message.reply_text(f"Promo is currently {'ON ✅' if promo_enabled else 'OFF 🚫'}")
 
 
 ################forward on off#################################################################
