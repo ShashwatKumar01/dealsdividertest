@@ -114,6 +114,7 @@ post_counter = {}     # Track posts per target channel
 # 📢 Promo Control
 # =========================
 promo_enabled = False  # Toggled by /promo_on and /promo_off
+ai_enabled = True     # Toggled by /ai_on and /ai_off
 
 PROMO_KEYBOARD = InlineKeyboardMarkup(
     [[InlineKeyboardButton("🏠 Join 2.0 ", url="https://t.me/+mUXCQYrUiKg0NDQ1"),
@@ -533,6 +534,8 @@ def clean_ai_caption(text):
 def rewrite_deal_text_sync(text):
     if not text or not ai_providers():
         return text
+    if not ai_enabled:
+        return text
 
     urls = extract_link_from_text2(text)
     system_prompt = (
@@ -726,7 +729,26 @@ async def promo_status(client, message):
     await message.reply_text(f"Promo is currently {'ON ✅' if promo_enabled else 'OFF 🚫'}")
 
 
-################forward on off#################################################################
+################AI caption on off#############################################################
+@app.on_message(filters.command('ai_on') & filters.user(5886397642))
+async def ai_on(client, message):
+    global ai_enabled
+    ai_enabled = True
+    await message.reply_text("🤖 AI Caption ON — captions will be rewritten by AI.")
+
+
+@app.on_message(filters.command('ai_off') & filters.user(5886397642))
+async def ai_off(client, message):
+    global ai_enabled
+    ai_enabled = False
+    await message.reply_text("🚫 AI Caption OFF — original captions will be used as-is.")
+
+
+@app.on_message(filters.command('ai_status') & filters.user(5886397642))
+async def ai_status(client, message):
+    await message.reply_text(f"🤖 AI Caption is currently {'ON ✅' if ai_enabled else 'OFF 🚫'}")
+
+
 global forward
 forward = True
 
